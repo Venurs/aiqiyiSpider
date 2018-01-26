@@ -32,13 +32,12 @@ def executeSQL(sql, param=()):
     cnx = mysql.connect(user=config.USER, password=config.PASSEORD, host=config.HOST, database=config.DATABASE)
     try:
         cur = cnx.cursor()
-        print(sql)
-        print(param)
         cur.execute(sql, param)
         cnx.commit()
         return True
-    except:
+    except Exception as e:
         cnx.rollback()
+        print(e)
         return False
     finally:
         cnx.close()
@@ -119,14 +118,49 @@ def moviePerformerAdd(models):
     return isSuccess
 
 
-def movieUrlAdd(models):
-    results = selectSQL("SELECT * FROM movieurl WHERE id = '%s'" % models.id)
+def performerDetailAdd(models):
+    results = selectSQL("SELECT * FROM performerdetailtable WHERE name = '%s'" % models.name)
     if len(results) > 0:
         return False
-    sql = 'INSERT INTO movieurl VALUES (%s,%s)'
+    sql = "INSERT INTO performerdetailtable VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     param = list()
-    param.append(models.id)
-    param.append(models.movieurl)
+    """
+    self, name, e_name, alias, sex, bloodtype, height, address,
+                 birthday, constellation, location, ResidentialAddress, school,
+                 BrokerageAgency, fameyear, hobby, Occupation, weight, image, des):
+    """
+    param.append(models.name)
+    param.append(models.e_name)
+    param.append(models.alias)
+    param.append(models.sex)
+    param.append(models.bloodtype)
+    param.append(models.height)
+    param.append(models.address)
+    param.append(models.birthday)
+    param.append(models.constellation)
+    param.append(models.location)
+    param.append(models.ResidentialAddress)
+    param.append(models.school)
+    param.append(models.BrokerageAgency)
+    param.append(models.fameyear)
+    param.append(models.hobby)
+    param.append(models.Occupation)
+    param.append(models.weight)
+    param.append(models.image)
+    param.append(models.des)
     params = tuple(param)
     isSuccess = executeSQL(sql=sql, param=params)
     return isSuccess
+
+
+def queryImageUrlAndSaveImagePathFromMovieTable():
+    results = selectSQL('SELECT imagepath,saveimagepath FROM movietable WHERE status IS NULL LIMIT 500')
+    return results
+
+
+def updateMovieTableStatus(param):
+    sql = "UPDATE movietable SET status = '1' WHERE imagepath = %s AND saveimagepath = %s"
+    isSuccess = executeSQL(sql=sql, param=param)
+    return isSuccess
+
+

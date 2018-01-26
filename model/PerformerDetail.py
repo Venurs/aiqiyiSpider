@@ -29,7 +29,7 @@ class PerformerDetail:
         self.bloodtype = bloodtype
         self.height = height
         self.address = address
-        self.birthady = birthday
+        self.birthday = birthday
         self.constellation = constellation  # 星座
         self.location = location          # 出生地
         self.ResidentialAddress = ResidentialAddress
