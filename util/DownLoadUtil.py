@@ -26,7 +26,7 @@ def downLoadPhotoForRequest(url,path):
     isSuccess=createFile(path)
     if isSuccess:
         #文件存在
-        print("文件存在")
+        # print("文件存在")
         return False
     #发起请求
     ir=requests.get(url, stream=True)
