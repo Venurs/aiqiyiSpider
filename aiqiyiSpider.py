@@ -5,6 +5,7 @@ import json
 
 
 def getCategroyMovieList():
+
     try:
         soup = BS.netUrlParser(url=config.INDEX_URL)
     except Exception as e:
@@ -12,6 +13,7 @@ def getCategroyMovieList():
         print(traceback.print_exc())
         return False
     divs = BS.getElementByFind(element=soup, tag="div", param={"class": "mod_sear_list"})
+
     divs = divs[1:-1]
     for div in divs:
         # 获取category
@@ -22,12 +24,14 @@ def getCategroyMovieList():
         a_s = BS.getElementByFind(element=ul, tag="a", param=None)
         a_s = a_s[1:]
         for a in a_s:
+            # print("start")
             title = a.text
             url = BS.getElementByAtt(element=a, attName="href")
             # 实例categroymovie对象
             categroymovie = CategroyMovie.CategroyMovie(categroy=categroy, url=url, title=title)
             # 插入数据库
             DBUtil.categroyMovieTableAdd(categroymovie)
+
 
 
 def getMovieList():
@@ -45,7 +49,7 @@ def getMovieList():
                 if int(page) < i:
                     break
             except:
-                print("页面请求错误：" + url1)
+                # print("页面请求错误：" + url1)
                 print(traceback.print_exc())
                 continue
             movie_ul = BS.getElementByFindFirst(element=soup1, tag="ul", param={"class": "site-piclist site-piclist-180236 site-piclist-auto"})
@@ -69,7 +73,6 @@ def getMovieList():
                 else:
                     score = score_element.text.split(">")[0]
                 # 初始化一个对象
-                # init__(self, moviename, time, url, imagepath, score, status = None, source = config.SOURCE)
                 movie = Movie.Movie(moviename, time, table_url, "http:"+img, score)
                 # 插入数据库
                 DBUtil.movieTableAdd(movie)

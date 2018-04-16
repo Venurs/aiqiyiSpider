@@ -9,7 +9,8 @@ class DownloadImageThread(Thread):
         self.name = "DownloadImageThread"
 
     def run(self):
-        time.sleep(20)
+        # time.sleep(20)
         print(self.getName() + "线程启动")
+        #while True:
         aiqiyiSpider.downloadPhoto()
         print(self.getName() + "线程任务完成，已结束")

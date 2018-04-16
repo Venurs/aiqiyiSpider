@@ -1,8 +1,8 @@
 # 数据库配置
-USER = "root"
-PASSEORD = "951231"
-HOST = "localhost"
-DATABASE = "moviesspider"
+USER = ""
+PASSEORD = ""
+HOST = ""
+DATABASE = "aiqiyiSpider"
 # aiqiyiSpider配置
 INDEX_URL = "http://list.iqiyi.com/www/1/-------------11-1-1-iqiyi--.html"
 

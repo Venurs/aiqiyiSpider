@@ -1,4 +1,4 @@
-import mysql.connector as mysql
+import pymysql
 from util import config
 
 
@@ -11,7 +11,7 @@ from util import config
 
 
 def selectSQL(sql):
-    cnx = mysql.connect(user=config.USER, password=config.PASSEORD, host=config.HOST, database=config.DATABASE)
+    cnx = pymysql.connect(user=config.USER, password=config.PASSEORD, host=config.HOST, database=config.DATABASE)
     try:
         cursor = cnx.cursor()
         cursor.execute(sql)
@@ -29,7 +29,7 @@ def executeSQL(sql, param=()):
     :param param: 所需要的参数，不需要参数时为空
     :return: 执行成功与否
     """
-    cnx = mysql.connect(user=config.USER, password=config.PASSEORD, host=config.HOST, database=config.DATABASE)
+    cnx = pymysql.connect(user=config.USER, password=config.PASSEORD, host=config.HOST, database=config.DATABASE, charset="utf8")
     try:
         cur = cnx.cursor()
         cur.execute(sql, param)

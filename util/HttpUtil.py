@@ -37,6 +37,7 @@
 # print res.content.decode("GBK")
 
 import requests
+import urllib.error
 coding = "utf-8"
 """
 url 是地址
@@ -45,7 +46,15 @@ param 是参数  类型字典
 
 
 def getURLHtml(url, param):
-    res = requests.get(url, param)
+    herders = {
+        "User-Agent": "Mozilla / 5.0(Windows NT 10.0;Win64;x64) AppleWebKit / 537.36(KHTML, likeGecko) Chrome / 65.0.3325.146Safari / 537.36",
+    }
+    try:
+        res = requests.get(url, param, headers=herders)
+    except urllib.error.HTTPError:
+        print("%s   发生HTTP请求错误" % url)
+    except urllib.error.URLError:
+        print("%s   发生URL请求错误" % url)
     if res.status_code == 200:
         return res.content.decode(coding)
     else:
