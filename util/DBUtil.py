@@ -66,7 +66,7 @@ def queryUrlFromCategroyMovieTable():
 
 def movieTableAdd(models):
     results = selectSQL("SELECT * FROM movietable WHERE moviename = '%s' AND url = '%s'" % (models.moviename, models.url))
-    if len(results) > 0:
+    if not results:
         return False
     sql = "INSERT INTO movietable(moviename, time, url, imagepath, saveimagepath, score, status, source) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
     param = list()

@@ -10,7 +10,7 @@ class SaveMovieAndPerformerDetailThread(Thread):
 
     def run(self):
         print(self.getName() + "线程启动")
-        #while True:
+        while True:
         # time.sleep(20)
-        aiqiyiSpider.getMovieDetail()
+            aiqiyiSpider.getMovieDetail()
         print(self.getName() + "线程任务结束")

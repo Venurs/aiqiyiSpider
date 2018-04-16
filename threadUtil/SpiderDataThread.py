@@ -8,5 +8,8 @@ class SpiderDataThread(Thread):
         self.name = "SpiderDataThread"
 
     def run(self):
-        aiqiyiSpider.getCategroyMovieList()
-        aiqiyiSpider.getMovieList()
+        print(self.getName() + "线程启动")
+        while True:
+            aiqiyiSpider.getCategroyMovieList()
+            aiqiyiSpider.getMovieList()
+        print(self.getName() + "线程启动")
