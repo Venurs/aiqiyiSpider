@@ -5,7 +5,10 @@ import json
 
 
 def getCategroyMovieList():
-
+    """
+    获取电影的所有分类，并插入数据库categorymovietable中
+    :return:
+    """
     try:
         soup = BS.netUrlParser(url=config.INDEX_URL)
     except Exception as e:
@@ -33,8 +36,11 @@ def getCategroyMovieList():
             DBUtil.categroyMovieTableAdd(categroymovie)
 
 
-
 def getMovieList():
+    """
+    根据电影的url获取电影信息，并将电影的详细信息插入到数据库movietable中
+    :return:
+    """
     movieList = list()
     urlList = DBUtil.queryUrlFromCategroyMovieTable()
     for url in urlList:
@@ -74,12 +80,17 @@ def getMovieList():
                     score = score_element.text.split(">")[0]
                 # 初始化一个对象
                 movie = Movie.Movie(moviename, time, table_url, "http:"+img, score)
+                # print("start")
                 # 插入数据库
                 DBUtil.movieTableAdd(movie)
             i += 1
 
 
 def getMovieDetail():
+    """
+    获取电影的细节信息，并插入到数据库moviedetailtable中
+    :return:
+    """
     while True:
         # 每次取出500个数据
         results = DBUtil.queryIdAndUrlFromMovieTable()
@@ -102,6 +113,10 @@ def getMovieDetail():
 
 
 def downloadPhoto():
+    """
+    从数据库中获取图片的地址，并下载
+    :return:
+    """
     while True:
         results = DBUtil.queryImageUrlAndSaveImagePathFromMovieTable()
         if len(results) == 0:

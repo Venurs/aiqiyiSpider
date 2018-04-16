@@ -45,7 +45,7 @@ def executeSQL(sql, param=()):
 
 def categroyMovieTableAdd(models):
     results = selectSQL("SELECT * FROM categroymovietable WHERE url = '%s' AND title = '%s'" % (models.url, models.title))
-    if results != None and len(results) > 0:
+    if results != None:
         return False
     sql = 'INSERT INTO categroymovietable(categroy, url, title, source) VALUES (%s,%s,%s,%s)'
     param = list()
@@ -66,7 +66,7 @@ def queryUrlFromCategroyMovieTable():
 
 def movieTableAdd(models):
     results = selectSQL("SELECT * FROM movietable WHERE moviename = '%s' AND url = '%s'" % (models.moviename, models.url))
-    if not results:
+    if results != None:
         return False
     sql = "INSERT INTO movietable(moviename, time, url, imagepath, saveimagepath, score, status, source) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)"
     param = list()
@@ -90,7 +90,7 @@ def queryIdAndUrlFromMovieTable():
 
 def movieDetailAdd(models):
     results = selectSQL("SELECT * FROM moviedetailtable WHERE id = '%s'" % models.id)
-    if len(results) > 0:
+    if results != None:
         return False
     sql = "INSERT INTO moviedetailtable VALUES (%s,%s,%s,%s,%s)"
     param = list()
@@ -106,7 +106,7 @@ def movieDetailAdd(models):
 
 def moviePerformerAdd(models):
     results = selectSQL("SELECT * FROM movieperformertable WHERE id = '%s'" % models.id)
-    if len(results) > 0:
+    if results != None:
         return False
     sql = "INSERT INTO movieperformertable VALUES (%s,%s,%s)"
     param = list()
@@ -120,7 +120,7 @@ def moviePerformerAdd(models):
 
 def performerDetailAdd(models):
     results = selectSQL("SELECT * FROM performerdetailtable WHERE name = '%s'" % models.name)
-    if len(results) > 0:
+    if results != None:
         return False
     sql = "INSERT INTO performerdetailtable VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)"
     param = list()

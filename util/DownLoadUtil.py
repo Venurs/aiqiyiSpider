@@ -31,7 +31,7 @@ def downLoadPhotoForRequest(url,path):
     #发起请求
     ir=requests.get(url, stream=True)
     if ir.status_code == 200:
-        with open(path,'wb') as f:
+        with open(path, 'wb') as f:
             for chunk in ir:
                 f.write(chunk)
         return True
