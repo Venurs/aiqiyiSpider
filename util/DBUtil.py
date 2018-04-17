@@ -55,6 +55,9 @@ def categroyMovieTableAdd(models):
     param.append(models.source)
     params = tuple(param)
     isSuccess = executeSQL(sql=sql, param=params)
+    # if isSuccess == False:
+    #     print(models.des)
+    #     print(len(models.des))
     return isSuccess
 
 
@@ -89,10 +92,11 @@ def queryIdAndUrlFromMovieTable():
 
 
 def movieDetailAdd(models):
-    results = selectSQL("SELECT * FROM moviedetailtable WHERE id = '%s'" % models.id)
-    if results != None:
+    results = selectSQL("SELECT id FROM moviedetailtable WHERE id = '%s'" % models.id)
+    print(results)
+    if len(results) > 0:
         return False
-    sql = "INSERT INTO moviedetailtable VALUES (%s,%s,%s,%s,%s)"
+    sql = "INSERT INTO moviedetailtable(id, director, keyword, categroy, des) VALUES (%s, %s, %s, %s, %s)"
     param = list()
     param.append(models.id)
     param.append(models.director)
@@ -100,13 +104,15 @@ def movieDetailAdd(models):
     param.append(models.categroy)
     param.append(models.des)
     params = tuple(param)
+    # print("start")
+    # print(params)
     isSuccess = executeSQL(sql=sql, param=params)
     return isSuccess
 
 
 def moviePerformerAdd(models):
-    results = selectSQL("SELECT * FROM movieperformertable WHERE id = '%s'" % models.id)
-    if results != None:
+    results = selectSQL("SELECT id FROM movieperformertable WHERE id = '%s'" % models.id)
+    if len(results) > 0:
         return False
     sql = "INSERT INTO movieperformertable VALUES (%s,%s,%s)"
     param = list()

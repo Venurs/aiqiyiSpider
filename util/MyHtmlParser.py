@@ -26,19 +26,19 @@ param   接收的格式是字典  class、id、name
 
 
 def getElementByFindFirst(element, tag, param):
-    if param == None:
-        return element.find(tag)
-    elif element == None:
+    if element == None:
         return False
+    elif param == None:
+        return element.find(tag)
     else:
         return element.find(tag, param)
 
 
 def getElementByFind(element, tag, param):
-    if param == None:
-        return element.findAll(tag)
-    elif element == None:
+    if element == None:
         return False
+    elif param == None:
+        return element.findAll(tag)
     else:
         return element.findAll(tag, param)
 

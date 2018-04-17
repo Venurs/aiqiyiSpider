@@ -94,7 +94,7 @@ def getMovieDetail():
     while True:
         # 每次取出500个数据
         results = DBUtil.queryIdAndUrlFromMovieTable()
-        if len(results) == 0:
+        if results == None:
             break
         for res in results:
             # 获取id
@@ -218,7 +218,7 @@ def getKeyword(soup):
         p_movieid = BS.getElementByFindFirst(element=soup, tag="p", param={"id": "data-videopoint"})
         movieid = BS.getElementByAtt(element=p_movieid, attName="data-qipuid")
     except:
-        print("获取看点是解析html错误")
+        print("获取看点时解析html错误")
     keyword_url = "http://qiqu.iqiyi.com/apis/video/tags/get?entity_id=" + movieid + "&limit=10"
     keyword_json = HttpUtil.getURLHtml(url=keyword_url, param=None)
     keyword_data = json.loads(keyword_json)
@@ -240,19 +240,29 @@ def getMovieDetailTable(id, soup):
     category_span = BS.getElementByFindFirst(element=soup, tag="span", param={"class": "mod-tags_item"})
     category_as = BS.getElementByFind(element=category_span, tag="a", param=None)
     categroy = ""
-    for category_a in category_as:
-        categroy = "," + category_a.text
+    if category_as != False:
+        for category_a in category_as:
+            categroy = "," + category_a.text
+    else:
+        categroy = ""
     # 获取导演，看点，简介
     details = BS.getElementByFind(element=soup, tag="span", param={"class": "type-con"})
     # 获取导演
-    directors = BS.getElementByFind(element=details[1], tag="a", param=None)
+    if len(details) > 2:
+        directors = BS.getElementByFind(element=details[1], tag="a", param=None)
+    else:
+        directors = None
     director = ""
-    for dir in directors:
-        director = dir.text + ","
+    if len(directors) > 0:
+        # global  directors
+        for dir in directors:
+            # global director
+            director = dir.text + ","
     # 获取看点
     keyword = getKeyword(soup)
     # 获取简介
     des = details[4].text.strip()
+    # print(des)
     # 创建MovieDetail实例
     moviedetail = MovieDetail.MovieDetail(id, director, keyword, categroy, des)
     DBUtil.movieDetailAdd(moviedetail)
@@ -268,7 +278,7 @@ def getPerformer(id, soup):
     # 获取performer和role
     performers = BS.getElementByFind(element=soup, tag="a", param={"itemprop": "actor"})
     roles = BS.getElementByFind(element=soup, tag="span", param={"class": "type-con_div"})
-    print(len(performers), len(roles))
+    # print(len(performers), len(roles))
     for i in zip(performers, roles):
         performer, role = i
         movieperformer = MoviePerformer.MoviePerformer(id=id, performer=performer.text, role=role.text.strip())
@@ -279,6 +289,7 @@ def getPerformer(id, soup):
         performer = performerDetail(performerdetail)
         # 插入数据库performerdetailtable
         DBUtil.performerDetailAdd(performer)
+
 
 
 
